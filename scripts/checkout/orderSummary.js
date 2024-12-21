@@ -1,9 +1,9 @@
 import { cart, removeFromCart, updateQuantity, updateCartQuantity, updateDeliveryOption } from "../../data/cart.js";
 import { getProduct } from "../../data/products.js";
 import { formatCurrency } from "../utils/money.js";
-import  dayjs  from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 import { deliveryOptions, getDeliveryOption } from "../../data/deliveryOption.js";
-import {renderPaymentSummary} from "./paymentSummary.js";
+import { renderPaymentSummary } from "./paymentSummary.js";
+import { calculateDeliveryDate } from "../../data/deliveryOption.js";
 
 export function renderOrderSummary() {
 let orderSummaryHTML = ''
@@ -17,16 +17,10 @@ cart.forEach((cartItem) =>{
 
   const deliveryOption = getDeliveryOption(deliveryOptionId);
 
-  const today = dayjs();
-    const deliveryDate = today.add(
-      deliveryOption.deliveryDays,'days');
-
-    const dateString = deliveryDate.format('dddd, MMMM D')
-
   orderSummaryHTML +=`
     <div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
     <div class="delivery-date">
-      Delivery date: ${dateString}
+      Delivery date: ${calculateDeliveryDate(deliveryOption)}
     </div>
 
     <div class="cart-item-details-grid">
@@ -126,11 +120,6 @@ function deliveryOptionsHTML(matchingProduct, cartItem) {
   let html = '';
 
   deliveryOptions.forEach((deliveryOption) => {
-    const today = dayjs();
-    const deliveryDate = today.add(
-      deliveryOption.deliveryDays,'days');
-
-    const dateString = deliveryDate.format('dddd, MMMM D')
 
     const priceString = deliveryOption.priceCents === 0 ? 'FREE' : `$${formatCurrency(deliveryOption.priceCents)} -`;
 
@@ -146,7 +135,7 @@ function deliveryOptionsHTML(matchingProduct, cartItem) {
             name="delivery-option-${matchingProduct.id}">
           <div>
             <div class="delivery-option-date">
-              ${dateString}
+              ${calculateDeliveryDate(deliveryOption)}
             </div>
             <div class="delivery-option-price">
               ${priceString} Shipping
