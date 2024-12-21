@@ -78,3 +78,9 @@ export function updateDeliveryOption(productId, deliveryOptionId) {
 
   saveToStorage();
 }
+
+export function updateCartQuantity() {
+  const cartQuantity = calculateCartQuantity();
+  document.querySelector('.js-return-to-home-link')
+    .innerHTML = cartQuantity === 0 ? 'No item' : `${cartQuantity}items`;
+}
