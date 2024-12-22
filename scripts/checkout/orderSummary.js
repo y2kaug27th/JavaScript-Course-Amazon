@@ -1,9 +1,9 @@
-import { cart, removeFromCart, updateQuantity, updateCartQuantity, updateDeliveryOption } from "../../data/cart.js";
-import { getProduct } from "../../data/products.js";
+import { cart, removeFromCart, updateQuantity, updateCartQuantity, updateDeliveryOption } from "../data/cart.js";
+import { getProduct } from "../data/products.js";
 import { formatCurrency } from "../utils/money.js";
-import { deliveryOptions, getDeliveryOption } from "../../data/deliveryOption.js";
+import { deliveryOptions, getDeliveryOption } from "../data/deliveryOption.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
-import { calculateDeliveryDate } from "../../data/deliveryOption.js";
+import { calculateDeliveryDate } from "../data/deliveryOption.js";
 
 export function renderOrderSummary() {
 let orderSummaryHTML = ''
@@ -47,7 +47,8 @@ cart.forEach((cartItem) =>{
           data-product-id="${matchingProduct.id}">
             Save
           </span>
-          <span class="delete-quantity-link link-primary js-delete-link"
+          <span class="delete-quantity-link link-primary js-delete-link
+           js-delete-link-${matchingProduct.id}"
           data-product-id="${matchingProduct.id}">
             Delete
           </span>

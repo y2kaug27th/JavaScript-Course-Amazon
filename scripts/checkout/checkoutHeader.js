@@ -1,4 +1,4 @@
-import { updateCartQuantity } from "../../data/cart.js";
+import { updateCartQuantity } from "../data/cart.js";
 
 export function renderCheckoutHeader() {
 let checkoutHeaderHTML = `

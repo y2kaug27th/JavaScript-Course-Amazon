@@ -1,5 +1,5 @@
-import { addToCart, calculateCartQuantity } from "../data/cart.js";
-import { products } from "../data/products.js";
+import { addToCart, calculateCartQuantity } from "./data/cart.js";
+import { products } from "./data/products.js";
 import { formatCurrency } from "./utils/money.js";
 //import lets you use the variable in this file
 //use as to rename the variable (cart as myCart)

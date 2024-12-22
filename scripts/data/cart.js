@@ -1,5 +1,10 @@
-export let cart = JSON.parse(localStorage.getItem('cart')) || [];
-//export lets you use the variable in other files
+export let cart;
+
+loadFromStorage();
+
+export function loadFromStorage() {
+  cart = JSON.parse(localStorage.getItem('cart')) || [];
+}
 
 function saveToStorage() {
   localStorage.setItem('cart', JSON.stringify(cart))
@@ -82,5 +87,5 @@ export function updateDeliveryOption(productId, deliveryOptionId) {
 export function updateCartQuantity() {
   const cartQuantity = calculateCartQuantity();
   document.querySelector('.js-return-to-home-link')
-    .innerHTML = cartQuantity === 0 ? 'No item' : `${cartQuantity}items`;
+    .innerHTML = cartQuantity === 0 ? 'No item' : `${cartQuantity} items`;
 }
