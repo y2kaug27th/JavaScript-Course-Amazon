@@ -1,12 +1,11 @@
-import { addToCart, calculateCartQuantity } from "./data/cart.js";
+import { cart } from "./data/cart-class.js";
 import { products } from "./data/products.js";
-import { formatCurrency } from "./utils/money.js";
-//import lets you use the variable in this file
 //use as to rename the variable (cart as myCart)
 
 let productsHTML = '';
 
 products.forEach((product) => {
+
   productsHTML += `
     <div class="product-container">
       <div class="product-image-container">
@@ -20,19 +19,18 @@ products.forEach((product) => {
 
       <div class="product-rating-container">
         <img class="product-rating-stars"
-          src="images/ratings/rating-${product.rating.stars * 10}.png">
+          src="${product.getStarsUrl()}">
         <div class="product-rating-count link-primary">
           ${product.rating.count}
         </div>
       </div>
 
       <div class="product-price">
-        $${formatCurrency(product.priceCents)}
-        <!--toFixed(2) rounds to 2 decimal places-->
+        ${product.getPrice()}
       </div>
 
       <div class="js-product-quantity-container-${product.id}">
-        <select calss="js-product-quantity-selector">
+        <select class="js-product-quantity-selector">
           <option selected value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -44,6 +42,10 @@ products.forEach((product) => {
           <option value="9">9</option>
           <option value="10">10</option>
         </select>
+      </div>
+      
+      <div>
+      ${product.extraInfoHTML()}
       </div>
 
       <div class="product-spacer"></div>
@@ -66,7 +68,7 @@ document.querySelector('.js-products-grid').innerHTML = productsHTML;
 updateCartQuantity();
 
 function updateCartQuantity() {
-  const cartQuantity = calculateCartQuantity();
+  const cartQuantity = cart.calculateCartQuantity();
   document.querySelector('.js-cart-quantity')
   .innerHTML = `${cartQuantity}`;
 }
@@ -74,14 +76,15 @@ function updateCartQuantity() {
 document.querySelectorAll('.js-add-to-cart')
   .forEach((button) => {
     button.addEventListener('click', () => {
-      const productId = button.dataset.productId; //productId is the value of the data-product-id attribute
+      const productId = button.dataset.productId;
+      //productId is the value of the data-product-id attribute
 
       const quantitySelector = document.querySelector(`
         .js-product-quantity-container-${productId} select`);
 
       const quantity = Number(quantitySelector.value);
 
-      addToCart(productId, quantity);
+      cart.addToCart(productId, quantity);
 
       updateCartQuantity();
     });
