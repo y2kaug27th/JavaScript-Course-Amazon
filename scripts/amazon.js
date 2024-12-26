@@ -1,6 +1,10 @@
 import { cart } from "./data/cart-class.js";
-import { products } from "./data/products.js";
+import { products, loadProductsFetch } from "./data/products.js";
 //use as to rename the variable (cart as myCart)
+
+loadProductsFetch().then(() => renderProductsGrid());
+
+function renderProductsGrid() {
 
 let productsHTML = '';
 
@@ -89,3 +93,4 @@ document.querySelectorAll('.js-add-to-cart')
       updateCartQuantity();
     });
   });
+}

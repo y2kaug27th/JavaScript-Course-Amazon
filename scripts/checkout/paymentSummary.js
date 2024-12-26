@@ -2,6 +2,7 @@ import { cart } from "../data/cart-class.js";
 import { getProduct } from "../data/products.js";
 import { getDeliveryOption } from "../data/deliveryOption.js";
 import { formatCurrency } from "../utils/money.js";
+import { order } from "../data/order.js";
 
 export function renderPaymentSummary() {
   let productPriceCents = 0;
@@ -61,56 +62,73 @@ export function renderPaymentSummary() {
       </div>
     </div>
 
-    <button class="place-order-button button-primary">
+    <button class="place-order-button button-primary js-place-order-button">
       Place your order
     </button>
     `;
   });
 
   document.querySelector(".js-payment-summary").innerHTML =
-      productPriceCents === 0 ?
-      `
-      <div class="payment-summary-title">
-        Order Summary
+    productPriceCents === 0 ?
+    `
+    <div class="payment-summary-title">
+      Order Summary
+    </div>
+
+    <div class="payment-summary-row">
+      <div>Items (0):</div>
+      <div class="payment-summary-money">
+        $0.00
       </div>
-  
-      <div class="payment-summary-row">
-        <div>Items (0):</div>
-        <div class="payment-summary-money">
-          $0.00
-        </div>
+    </div>
+
+    <div class="payment-summary-row">
+      <div>Shipping &amp; handling:</div>
+      <div class="payment-summary-money">
+        $0.00
       </div>
-  
-      <div class="payment-summary-row">
-        <div>Shipping &amp; handling:</div>
-        <div class="payment-summary-money">
-          $0.00
-        </div>
+    </div>
+
+    <div class="payment-summary-row subtotal-row">
+      <div>Total before tax:</div>
+      <div class="payment-summary-money">
+        $0.00
       </div>
-  
-      <div class="payment-summary-row subtotal-row">
-        <div>Total before tax:</div>
-        <div class="payment-summary-money">
-          $0.00
-        </div>
+    </div>
+
+    <div class="payment-summary-row">
+      <div>Estimated tax (10%):</div>
+      <div class="payment-summary-money">
+        $0.00
       </div>
-  
-      <div class="payment-summary-row">
-        <div>Estimated tax (10%):</div>
-        <div class="payment-summary-money">
-          $0.00
-        </div>
+    </div>
+
+    <div class="payment-summary-row total-row">
+      <div>Order total:</div>
+      <div class="payment-summary-money">
+        $0.00
       </div>
-  
-      <div class="payment-summary-row total-row">
-        <div>Order total:</div>
-        <div class="payment-summary-money">
-          $0.00
-        </div>
-      </div>
-  
-      <button class="place-order-button button-primary">
-        Place your order
-      </button>
+    </div>
   `: paymentSummaryHTML
+
+  try {
+  document.querySelector('.js-place-order-button')
+    .addEventListener('click', async () => {
+      const response = await fetch('https://supersimplebackend.dev/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          cart: cart.cartItems
+        })
+      });
+
+      const PurchasedProducts = await response.json();
+      order.addToOrder(PurchasedProducts);
+
+      window.location.href = './orders.html';
+  })} catch (error) {
+    console.log('No products in cart');
+  }
 }

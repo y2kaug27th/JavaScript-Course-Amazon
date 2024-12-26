@@ -1,11 +1,16 @@
 import {renderOrderSummary} from "../../../scripts/checkout/orderSummary.js";
 import {cart} from "../../../scripts/data/cart-class.js";
+import {loadProductsFetch} from "../../../scripts/data/products.js";
 
 describe('Test suite: renderOrderSummary', () => {
 
   // beforeEach() is a Jasmine function that allows us to run a function before each of the tests in this suite.
   // It's useful for setting up the DOM or other state that we want to test against.
   // There's also afterEach(), beforeAll(), and afterAll().
+
+  beforeAll(async () => {
+    await loadProductsFetch();
+  })
 
   beforeEach(() => {
 
