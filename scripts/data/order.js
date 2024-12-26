@@ -21,4 +21,4 @@ class Order {
   }
 }
 
-export const order = new Order('order');
+export const orderPlaced = new Order('order');

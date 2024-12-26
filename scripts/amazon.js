@@ -1,8 +1,10 @@
 import { cart } from "./data/cart-class.js";
 import { products, loadProductsFetch } from "./data/products.js";
+import {updateCartQuantity} from "./utils/cartQuantity.js";
 //use as to rename the variable (cart as myCart)
 
-loadProductsFetch().then(() => renderProductsGrid());
+await loadProductsFetch();
+renderProductsGrid();
 
 function renderProductsGrid() {
 
@@ -70,12 +72,6 @@ products.forEach((product) => {
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
 updateCartQuantity();
-
-function updateCartQuantity() {
-  const cartQuantity = cart.calculateCartQuantity();
-  document.querySelector('.js-cart-quantity')
-  .innerHTML = `${cartQuantity}`;
-}
 
 document.querySelectorAll('.js-add-to-cart')
   .forEach((button) => {

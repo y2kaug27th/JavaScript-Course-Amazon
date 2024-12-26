@@ -2,7 +2,7 @@ import { cart } from "../data/cart-class.js";
 import { getProduct } from "../data/products.js";
 import { getDeliveryOption } from "../data/deliveryOption.js";
 import { formatCurrency } from "../utils/money.js";
-import { order } from "../data/order.js";
+import { orderPlaced } from "../data/order.js";
 
 export function renderPaymentSummary() {
   let productPriceCents = 0;
@@ -109,7 +109,7 @@ export function renderPaymentSummary() {
         $0.00
       </div>
     </div>
-  `: paymentSummaryHTML
+  `: paymentSummaryHTML;
 
   try {
   document.querySelector('.js-place-order-button')
@@ -125,10 +125,13 @@ export function renderPaymentSummary() {
       });
 
       const PurchasedProducts = await response.json();
-      order.addToOrder(PurchasedProducts);
+      orderPlaced.addToOrder(PurchasedProducts);
+
+      cart.cartItems = [];
+      cart.saveToStorage();
 
       window.location.href = './orders.html';
   })} catch (error) {
-    console.log('No products in cart');
+    console.log('No product in cart');
   }
 }

@@ -99,3 +99,4 @@ class Cart {
 }
 
 export const cart = new Cart('cart-oop');
+export const cartTest = new Cart('cart-oop-test');

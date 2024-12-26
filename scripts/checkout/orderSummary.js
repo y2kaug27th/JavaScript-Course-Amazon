@@ -1,14 +1,14 @@
-import { cart } from "../data/cart-class.js";
 import { getProduct } from "../data/products.js";
 import { formatCurrency } from "../utils/money.js";
 import { deliveryOptions, getDeliveryOption } from "../data/deliveryOption.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
 import { calculateDeliveryDate } from "../data/deliveryOption.js";
+import { cart } from "../data/cart-class.js";
 
-export function renderOrderSummary() {
+export function renderOrderSummary(element) {
 let orderSummaryHTML = ''
 
-cart.cartItems.forEach((cartItem) =>{
+  element.cartItems.forEach((cartItem) =>{
   const productId = cartItem.productId;
 
   const matchingProduct = getProduct(productId)
@@ -68,7 +68,7 @@ cart.cartItems.forEach((cartItem) =>{
 
 document.querySelector(".js-order-summary").innerHTML = orderSummaryHTML;
 
-cart.updateCartQuantity();
+  element.updateCartQuantity();
 
 
 
@@ -77,8 +77,8 @@ document.querySelectorAll(".js-delete-link")
   .forEach((link) =>{
   link.addEventListener('click', () =>{
     const productId = link.dataset.productId;
-    cart.removeFromCart(productId);
-    renderOrderSummary();
+    element.removeFromCart(productId);
+    renderOrderSummary(element);
     renderPaymentSummary();
   })
 })
@@ -91,7 +91,7 @@ document.querySelectorAll(".js-update-link")
         `.js-cart-item-container-${productId}`
       );
       container.classList.add('is-editing-quantity');
-      cart.updateCartQuantity();
+      element.updateCartQuantity();
   })
 })
 
@@ -108,11 +108,11 @@ document.querySelectorAll('.js-save-link')
 
       const newQuantity = Number(quantityInput.value);
 
-      cart.updateQuantity(productId, newQuantity);
+      element.updateQuantity(productId, newQuantity);
 
       document.querySelector(`.js-quantity-label-${productId}`).innerHTML = newQuantity;
 
-      cart.updateCartQuantity();
+      element.updateCartQuantity();
       renderPaymentSummary();
   });
 })
@@ -151,8 +151,8 @@ function deliveryOptionsHTML(matchingProduct, cartItem) {
 document.querySelectorAll('.js-delivery-option').forEach((element) => {
   element.addEventListener('click', () => {
     const {productId, deliveryOptionId} = element.dataset;
-    cart.updateDeliveryOption(productId, deliveryOptionId);
-    renderOrderSummary();
+    element.updateDeliveryOption(productId, deliveryOptionId);
+    renderOrderSummary(element);
     renderPaymentSummary();
   })
 })

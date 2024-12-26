@@ -1,5 +1,5 @@
 import {renderOrderSummary} from "../../../scripts/checkout/orderSummary.js";
-import {cart} from "../../../scripts/data/cart-class.js";
+import {cartTest} from "../../../scripts/data/cart-class.js";
 import {loadProductsFetch} from "../../../scripts/data/products.js";
 
 describe('Test suite: renderOrderSummary', () => {
@@ -19,7 +19,7 @@ describe('Test suite: renderOrderSummary', () => {
        <div class="js-return-to-home-link"></div>
        <div class="js-payment-summary"></div>`;
 
-    cart.cartItems = [{
+    cartTest.cartItems = [{
       productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
       quantity: 1,
       deliveryOptionId: '1'
@@ -29,12 +29,13 @@ describe('Test suite: renderOrderSummary', () => {
       deliveryOptionId: '2'
     }];
 
-    renderOrderSummary();
+    renderOrderSummary(cartTest);
   })
 
   afterEach(() => {
-    cart.removeFromCart('e43638ce-6aa0-4b85-b27f-e1d07eb678c6');
-    cart.removeFromCart('15b6fc6f-327a-4ec4-896f-486349e85a3d');
+    cartTest.removeFromCart('e43638ce-6aa0-4b85-b27f-e1d07eb678c6');
+    cartTest.removeFromCart('15b6fc6f-327a-4ec4-896f-486349e85a3d');
+    cartTest.removeFromCart('15b6fc6f-327a-4ec4-896f-486349e85a3d');
     document.querySelector('.js-test-container').innerHTML = ``;
   })
 
@@ -53,7 +54,7 @@ describe('Test suite: renderOrderSummary', () => {
     expect(document.querySelectorAll('.cart-item-container').length).toEqual(1);
     expect(document.querySelector('.js-order-summary').innerHTML).not.toContain('e43638ce-6aa0-4b85-b27f-e1d07eb678c6');
     expect(document.querySelector('.js-order-summary').innerHTML).toContain('15b6fc6f-327a-4ec4-896f-486349e85a3d');
-    expect(cart.cartItems.length).toEqual(1);
-    expect(cart.cartItems[0].productId).toEqual('15b6fc6f-327a-4ec4-896f-486349e85a3d');
+    expect(cartTest.cartItems.length).toEqual(1);
+    expect(cartTest.cartItems[0].productId).toEqual('15b6fc6f-327a-4ec4-896f-486349e85a3d');
   })
 })
