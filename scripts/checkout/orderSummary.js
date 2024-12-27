@@ -3,7 +3,6 @@ import { formatCurrency } from "../utils/money.js";
 import { deliveryOptions, getDeliveryOption } from "../data/deliveryOption.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
 import { calculateDeliveryDate } from "../data/deliveryOption.js";
-import { cart } from "../data/cart-class.js";
 
 export function renderOrderSummary(element) {
 let orderSummaryHTML = ''
@@ -148,9 +147,9 @@ function deliveryOptionsHTML(matchingProduct, cartItem) {
   return html;
 }
 
-document.querySelectorAll('.js-delivery-option').forEach((element) => {
-  element.addEventListener('click', () => {
-    const {productId, deliveryOptionId} = element.dataset;
+document.querySelectorAll('.js-delivery-option').forEach((button) => {
+  button.addEventListener('click', () => {
+    const {productId, deliveryOptionId} = button.dataset
     element.updateDeliveryOption(productId, deliveryOptionId);
     renderOrderSummary(element);
     renderPaymentSummary();
