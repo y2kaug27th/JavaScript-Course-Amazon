@@ -154,3 +154,9 @@
   padding: 8px;
   border-radius: 50px;
 }
+
+.no-products-found {
+  font-size: 20px;
+  margin: 16px;
+  align-items: center;
+}
